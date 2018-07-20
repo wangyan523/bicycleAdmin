@@ -13,7 +13,7 @@ export default class Home extends Component{
             <Link to="/about">about</Link>
           </li>
           <li>
-            <Link to="/person">personal</Link>
+            <Link to="/person">person</Link>
           </li>
         </ul>
         {this.props.children}
