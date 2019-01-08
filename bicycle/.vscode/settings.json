@@ -1,0 +1,7 @@
+{
+  "editor.renderLineHighlight": "all",
+  "editor.formatOnType": true,
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 5000,
+  "files.defaultLanguage": "javascript"
+}
