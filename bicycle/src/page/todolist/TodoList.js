@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import TodoItem from './TodoItem'
 
 class TodoList extends Component {
   constructor(props) {
@@ -7,6 +8,9 @@ class TodoList extends Component {
       inputValue: '',
       list: []
     }
+    this.handleInputChange = this.handleInputChange.bind(this)
+    this.handleClick = this.handleClick.bind(this)
+    this.handleLiClick = this.handleLiClick.bind(this)
   }
   render() {
     return (
@@ -15,20 +19,22 @@ class TodoList extends Component {
         <input
           id="inpArea"
           value={this.state.inputValue}
-          onChange={this.handleInputChange.bind(this)}
+          onChange={this.handleInputChange}
+          ref={(input) => { this.input = input }}
         />
         <button
-          onClick={this.handleClick.bind(this)}
+          onClick={this.handleClick}
         >提交</button>
-        <ul>
+        <ul ref={(ul) => { this.ul = ul }}>
           {
-            this.state.list.map((e,i) => {
+            this.state.list.map((e, i) => {
               return (
-                <li
+                <TodoItem
+                  content={e}
                   key={i}
-                  onClick={this.handleLiClick.bind(this, i)}
-                  dangerouslySetInnerHTML={{__html:e}}
-                ></li> 
+                  index={i}
+                  delItem={this.handleLiClick}
+                />
               ) 
             })
           }
@@ -36,23 +42,28 @@ class TodoList extends Component {
       </Fragment>
     )
   }
-  handleInputChange(e) {
-    this.setState({
-      inputValue: e.target.value
-    })
+  handleInputChange() {
+    const value = this.input.value
+    this.setState(() => ({
+      inputValue: value
+    }))
   }
   handleClick() {
-    this.setState({
-      list: [...this.state.list, this.state.inputValue],
+    this.setState(prevState => ({
+      list: [...prevState.list, prevState.inputValue],
       inputValue: ''
+    }), () => { 
+      console.log(this.ul.querySelectorAll('div').length);
     })
   }
   handleLiClick(i) {
-    const list = [...this.state.list]
-    list.splice(i, 1)
-    this.setState({
-      list
-    }) 
+    this.setState(prevState => {
+      const list = [...prevState.list]
+      list.splice(i, 1)
+      return {
+        list
+      }
+    })
   }
 }
 
