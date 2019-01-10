@@ -42,6 +42,7 @@ class TodoList extends Component {
       </Fragment>
     )
   }
+
   handleInputChange() {
     const value = this.input.value
     this.setState(() => ({
@@ -53,7 +54,6 @@ class TodoList extends Component {
       list: [...prevState.list, prevState.inputValue],
       inputValue: ''
     }), () => { 
-      console.log(this.ul.querySelectorAll('div').length);
     })
   }
   handleLiClick(i) {
