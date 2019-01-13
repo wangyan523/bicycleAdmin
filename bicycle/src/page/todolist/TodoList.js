@@ -1,69 +1,45 @@
-import React, { Component, Fragment } from 'react'
-import TodoItem from './TodoItem'
+import React, { Component } from 'react'
+import TodoListUI from './TodoListUI'
+import store from './store'
+import { getInputChange, getAddItem, getRemoveItem } from './store/actionCreators'
+import axios from 'axios'
 
 class TodoList extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      inputValue: '',
-      list: []
-    }
-    this.handleInputChange = this.handleInputChange.bind(this)
-    this.handleClick = this.handleClick.bind(this)
-    this.handleLiClick = this.handleLiClick.bind(this)
+    this.state = store.getState()
+    store.subscribe(this.handleStateChange)
   }
   render() {
     return (
-      <Fragment>
-        <label htmlFor="inpArea">输入</label>
-        <input
-          id="inpArea"
-          value={this.state.inputValue}
-          onChange={this.handleInputChange}
-          ref={(input) => { this.input = input }}
-        />
-        <button
-          onClick={this.handleClick}
-        >提交</button>
-        <ul ref={(ul) => { this.ul = ul }}>
-          {
-            this.state.list.map((e, i) => {
-              return (
-                <TodoItem
-                  content={e}
-                  key={i}
-                  index={i}
-                  delItem={this.handleLiClick}
-                />
-              ) 
-            })
-          }
-        </ul>
-      </Fragment>
+      <TodoListUI
+        inputValue={this.state.inputValue}
+        list={this.state.list}
+        handleInputChange={this.handleInputChange}
+        handleClick={this.handleClick}
+        hanldeDelClick={this.hanldeDelClick}
+      />
     )
   }
 
-  handleInputChange() {
-    const value = this.input.value
-    this.setState(() => ({
-      inputValue: value
-    }))
-  }
-  handleClick() {
-    this.setState(prevState => ({
-      list: [...prevState.list, prevState.inputValue],
-      inputValue: ''
-    }), () => { 
+  componentDidMount() { 
+    axios.get('/list.json').then(res => { 
+      console.log(res)
     })
   }
-  handleLiClick(i) {
-    this.setState(prevState => {
-      const list = [...prevState.list]
-      list.splice(i, 1)
-      return {
-        list
-      }
-    })
+
+  handleStateChange = () => {
+    this.setState(store.getState())
+  }
+
+  handleInputChange = (e) => {
+    store.dispatch(getInputChange(e.target.value))
+  }
+  handleClick = () => {
+    store.dispatch(getAddItem())
+  }
+  hanldeDelClick = (i) => {
+    store.dispatch(getRemoveItem(i))
   }
 }
 
