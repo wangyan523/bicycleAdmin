@@ -7,7 +7,15 @@ const ThemeConsumer = ThemeContext.Consumer
 class Context extends Component {
   render() {
     return (
-      <div>Context page</div>
+      <ThemeConsumer>
+        {
+          (theme) => { 
+            <h1 style={{color:theme.mainColor}}>
+              {this.props.children}
+            </h1>
+          }
+        }
+      </ThemeConsumer>
     )
   }
 }

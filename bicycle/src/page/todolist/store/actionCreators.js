@@ -1,4 +1,4 @@
-import { INPUT_CHANGE, ADD_ITEM, REMOVE_ITEM } from './actionTypes' 
+import { INPUT_CHANGE, ADD_ITEM, REMOVE_ITEM, INIT_LIST_DATA } from './actionTypes'
 
 export const getInputChange = (value) => ({
   type: INPUT_CHANGE,
@@ -13,3 +13,19 @@ export const getRemoveItem = (index) => ({
   type: REMOVE_ITEM,
   index
 })
+
+export const getInitListData = (data) => ({
+  type: INIT_LIST_DATA,
+  data
+})
+
+// export const getListAction = () => { 
+//   return (dispatch) => { 
+//     axios.get('/list.json').then(res => { 
+//       if (res.status === 200) { 
+//         const data = res.data;
+//         dispatch(getInitListData(data))
+//       }
+//     })
+//   } 
+// }
