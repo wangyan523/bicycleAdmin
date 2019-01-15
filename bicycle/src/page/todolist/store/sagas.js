@@ -1,9 +1,15 @@
-import { takeEvery } from 'redux-saga/effects'
-import { INIT_LIST_ACTION } from './actionTypes'
+import { takeEvery, put } from 'redux-saga/effects'
+import { GET_INIT_LIST } from './actionTypes'
 import { getInitListData } from './actionCreators'
+import axios from 'axios' 
+
+function* getInitList() { 
+  const res = yield axios.get('/list.json')
+  const action = getInitListData(res.data)
+  yield put(action)
+}
 function* mySaga() {
-  console.log('abc')
-  yield takeEvery(INIT_LIST_ACTION, getInitListData);
+  yield takeEvery(GET_INIT_LIST, getInitList);
 }
 
 export default mySaga;
