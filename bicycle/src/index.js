@@ -8,6 +8,7 @@ import ReactDOM from 'react-dom';
 // import WithComponent from './page/withComponent/WithComponent'
 // import Context from './page/context/ContextTheme'
 import TodoList2 from './page/todolist2/TodoList'
+// import TabsPage from './page/tabs/TabsPage'
 import { Provider } from 'react-redux'
 import store from './page/todolist2/store'
 

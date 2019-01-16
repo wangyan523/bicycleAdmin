@@ -1,18 +1,64 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { CHANGE_INPUT_VALUE, ADD_LIST_ITEM, DEL_LIST_ITEM } from './store/actionTypes'
 
-class TodoList2 extends Component {
-  render() {
-    return (
-      <div>
-        <input />
-        <button>提交</button>
-        <ul>
-          <li>wyyyyyy</li>
-        </ul>
-      </div>
-    )
+const TodoList2 = (props) => { 
+  const { inputValue, changeInputValue, addListItem, list, delListItem} = props
+  return (
+    <div>
+      <input
+        value={inputValue}
+        onChange={changeInputValue}
+      />
+      <button onClick={addListItem}>提交</button>
+      <ul>
+        {
+          list.map((e, i) => { 
+            return (
+              <li
+                key={i}
+                onClick={()=>delListItem(i)}
+              >
+                {e}
+              </li>
+            )
+          })
+        }
+      </ul>
+    </div>
+  )
+}
+
+const mapStateProps = (state) => { 
+  return {
+    inputValue: state.inputValue,
+    list: state.list
   }
 }
 
-export default connect(null, null)(TodoList2)
+const mapDispatchToProps = (dispatch) => { 
+  return {
+    changeInputValue(e) { 
+      const action = {
+        type: CHANGE_INPUT_VALUE,
+        value: e.target.value
+      }
+      dispatch(action)
+    },
+    addListItem() { 
+      const action = {
+        type: ADD_LIST_ITEM
+      }
+      dispatch(action)
+    },
+    delListItem(i) { 
+      const action = {
+        type: DEL_LIST_ITEM,
+        index: i
+      }
+      dispatch(action)
+    }
+  }
+}
+
+export default connect(mapStateProps, mapDispatchToProps)(TodoList2)
